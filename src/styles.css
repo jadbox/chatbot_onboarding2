@@ -1,7 +1,16 @@
 body {
-  background-color: #5dc4ff;
+  background-image: url("/background.svg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  font-family: "Roboto !important", sans-serif;
+  background-repeat: repeat-x;
+  background-position: center center;
+  width: 100%;
 }
 .App {
+  margin: 4em auto 0 auto;
   font-family: sans-serif;
   text-align: center;
+  color: white;
 }

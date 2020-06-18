@@ -19,14 +19,16 @@ function redirect(urlParams, account, setState) {
     console.log("redirecting to", url);
     return true;
   } else {
-    if (window.location.href.indexOf(".app") < 0 && window.close)
-      window.close();
     console.log("address", account);
     setState(x => ({
       ...x,
-      msg: "MetaMask account connected!",
+      msg: "Wallet account connected!",
+      // account: account,
       stage: 12
     }));
+
+    // window.location.href.indexOf(".app") < 0 &&
+    if (window.close) window.close();
     return false;
   }
 }
@@ -69,7 +71,8 @@ async function getAccount(setState) {
       setState(x => ({
         ...x,
         msg: `Calling back using public key: ${account}.`,
-        stage: 1
+        stage: 1,
+        account: account
       }));
 
       if (urlParams.has("callback")) {
@@ -150,16 +153,20 @@ export default function App() {
     <div className="App">
       {state.stage < 10 && (
         <>
-          <h1>Please sign into MetaMask.</h1>
+          <h1>Please sign into MetaMask/Wallet.</h1>
           <p>{state.addr ? JSON.stringify(state.addr) : ""}</p>
-          <h4>{state.msg ? state.msg : "status: waiting for MetaMask"}</h4>
+          <h4>{state.msg ? state.msg : "status: waiting for Wallet"}</h4>
         </>
       )}
 
       {state.stage > 9 && (
         <>
-          <h1>{state.msg ? state.msg : "status: waiting for MetaMask"}</h1>
-          <h4>{"You can close the window now."}</h4>
+          <h1>{state.msg ? state.msg : "status: waiting for Wallet"}</h1>
+          <h4>
+            {"You can close the window now..."}
+            <br />
+            {state.account}
+          </h4>
         </>
       )}
     </div>

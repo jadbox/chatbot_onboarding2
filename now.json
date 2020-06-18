@@ -1,0 +1,18 @@
+{
+  "name": "csb-su5mz",
+  "headers": [
+    {
+      "source": "**",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "ALLOW"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    }
+  ]
+}
