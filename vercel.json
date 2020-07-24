@@ -2,7 +2,7 @@
   "name": "csb-su5mz",
   "headers": [
     {
-      "source": "**",
+      "source": "/(.*)",
       "headers": [
         {
           "key": "X-Frame-Options",

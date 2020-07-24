@@ -64,9 +64,26 @@ async function getAccount(setState) {
   if (window.ethereum !== "undefined") {
     setState(x => ({ ...x, msg: "found web3", stage: 1 }));
     console.log("window.ethereum", window.ethereum);
-    await window.ethereum.send("eth_accounts").then(it => {
+
+    let cmd = null;
+    if(window.ethereum.request) {
+      cmd = window.ethereum.request({method: "eth_accounts"});
+      console.log('using request');
+    }
+    else {
+      cmd = window.ethereum.send("eth_accounts");
+      console.log('using send');
+    }
+    
+    await cmd.then(it => {
+      const response = it.length !== undefined ? it : it.result; 
+      if(!response.length) {
+
+        return;
+      }
+
       console.log("ww", it);
-      account = it.result[0];
+      account = response[0];
 
       setState(x => ({
         ...x,
@@ -103,7 +120,10 @@ async function getAccount(setState) {
       }
     });
   }
-  if (!account) throw new Error("no account");
+  if (!account) {
+    return null;
+    // throw new Error("no account");
+  }
   return account;
 }
 
