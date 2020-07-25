@@ -70,9 +70,15 @@ async function getAccount(setState) {
       cmd = window.ethereum.request({method: "eth_accounts"});
       console.log('using request');
     }
-    else {
-      cmd = window.ethereum.send("eth_accounts");
+    else if(window.ethereum.send){
+      const re = {
+        jsonrpc: '2.0',
+        method: "eth_accounts"
+      };
+      cmd = window.ethereum.send(re);
       console.log('using send');
+    } else {
+      throw new Error('Internal error: no request or send found. Do you have Metamask installed?');
     }
     
     await cmd.then(it => {
