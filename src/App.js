@@ -130,7 +130,8 @@ function confirm(account, setState) {
       wallet_address: account,
     };
 
-    console.log("calling callback");
+    console.log("Using callback url:", callbackURL);
+    console.log('callback id', bodyData.id);
 
     fetch(callbackURL, {
       retryOn: [503, 404, 504, 500, 502],
