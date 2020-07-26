@@ -47,7 +47,7 @@ function redirect(urlParams, account, setState) {
     }));
 
     // window.location.href.indexOf(".app") < 0 &&
-    if (window.close) window.close();
+    // if (window.close) window.close();
     return false;
   }
 }
