@@ -13,6 +13,13 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import { Typography } from "@material-ui/core";
+
+require('es6-promise').polyfill();
+var originalFetch = require('isomorphic-fetch');
+var fetch = require('fetch-retry')(originalFetch, {
+  retries: 3,
+  retryDelay: 2000
+});
 // import Web3 from "web3";
 
 // version 0.5
@@ -124,16 +131,21 @@ function confirm(account, setState) {
     };
 
     console.log("calling callback");
-    return fetch(callbackURL, {
+
+    fetch(callbackURL, {
+      retryOn: [503, 404, 504, 500, 502],
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       redirect: "follow",
       body: JSON.stringify(bodyData),
-    })
-      .then(() => {
-        console.log("calling callback finished");
+    }).then((x) => {
+        if(x.status > 299) {
+          alert('Server failed. Please try again later!')
+          return;
+        }
+        console.log("calling callback finished", x);
         setState((s) => ({ ...s, stage: 10 }));
         redirect(urlParams, account, setState);
       })
