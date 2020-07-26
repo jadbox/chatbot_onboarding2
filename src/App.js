@@ -125,6 +125,17 @@ async function getAccount(setState) {
 function confirm(account, setState) {
   if (urlParams.has("callback")) {
     const callbackURL = urlParams.get("callback");
+
+    if(!callbackURL) {
+      setState((s) => ({ ...s, stage: 10 }));
+      redirect(urlParams, account, setState);
+      return;
+    }
+
+    if(callbackURL.indexOf('http')===-1) {
+      callbackURL += 'https://' + callbackURL;
+    }
+
     const bodyData = {
       id: urlParams.get("id"),
       wallet_address: account,
